@@ -6,8 +6,8 @@ import java.util.Map;
 import javax.ws.rs.core.Response;
 
 public class AdCampaignImpl implements AdCampaign {
-	private long currentId = 7;
-	Map<Long, User> users = new HashMap<Long, User>();
+	//private long currentId = 7;
+	Map<String, User> users = new HashMap<String, User>();
 
 //	public AdCampaignImpl() {
 //		init();
@@ -24,16 +24,24 @@ public class AdCampaignImpl implements AdCampaign {
 
 	public User getUser(String partner_id) {
 		System.out.println("inovking getUser...." + partner_id);
-		Long id = Long.parseLong(partner_id);
-		User getuserId = users.get(id);
+		//Long id = Long.parseLong(partner_id);
+		User getuserId = users.get(partner_id);
 		return getuserId;
 	}
 
 	public Response addUser(User User) {
-		System.out.println("invoking addUser...." + User.getPartner_id());
-		User.setPartner_id(++currentId);
-		users.put(User.getPartner_id(), User);
-		return Response.ok().build();
+		//User.setPartner_id(++currentId);
+		Response response = null;
+		if(users.get(User.getPartner_id()) == null){
+			System.out.println("invoking addUser...." + User.getPartner_id()+" "+User.getDuration()+"    "+User.getAd_content());
+			users.put(User.getPartner_id(), User);
+			response =  Response.ok(User).build();
+		}else{
+			System.out.println("****invoking addCampaign already existing******* " + User.getPartner_id());
+			response = Response.notModified().build();
+		}
+		return response;
 	}
+	
 
 }

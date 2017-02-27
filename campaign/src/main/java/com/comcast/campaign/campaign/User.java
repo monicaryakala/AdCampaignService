@@ -7,16 +7,16 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement(name="User")
 public class User {
 	
-private long partner_id;
+private String partner_id;
 private long duration;
 private String ad_content;
 
 
 
-public long getPartner_id() {
+public String getPartner_id() {
 	return partner_id;
 }
-public void setPartner_id(long partner_id) {
+public void setPartner_id(String partner_id) {
 	this.partner_id = partner_id;
 }
 public long getDuration() {
