@@ -1,0 +1,6 @@
+1) Identify the resources/ data transfer objects that need to be exposed as the REST services.
+2) Annotate resources with JAX-RS annotations.
+3) Create URI's to access these resources.
+4) Annotate Java Beans with JAXB annotations
+3) Publish the endpoints.
+4) Deploy and run.
