@@ -1,47 +1,50 @@
 package com.comcast.campaign.campaign;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import javax.ws.rs.core.Response;
 
 public class AdCampaignImpl implements AdCampaign {
-	//private long currentId = 7;
-	Map<String, User> users = new HashMap<String, User>();
 
-//	public AdCampaignImpl() {
-//		init();
-//	}
-//
-//	final void init() {
-//		User user = new User();
-//		user.setPartner_id(currentId);
-//		user.setAd_content("its a campaign");
-//		user.setDuration(2000);
-//		users.put(user.getPartner_id(), user);
-//
-//	}
+	Map<String, List<User>> campaign = new HashMap<String, List<User>>();
 
-	public User getUser(String partner_id) {
+	public List<User> getUser(String partner_id) {
 		System.out.println("inovking getUser...." + partner_id);
-		//Long id = Long.parseLong(partner_id);
-		User getuserId = users.get(partner_id);
-		return getuserId;
+	   List<User> list = campaign.get(partner_id);
+		return list;
 	}
 
-	public Response addUser(User User) {
-		//User.setPartner_id(++currentId);
-		Response response = null;
-		if(users.get(User.getPartner_id()) == null){
-			System.out.println("invoking addUser...." + User.getPartner_id()+" "+User.getDuration()+"    "+User.getAd_content());
-			users.put(User.getPartner_id(), User);
-			response =  Response.ok(User).build();
-		}else{
-			System.out.println("****invoking addCampaign already existing******* " + User.getPartner_id());
-			response = Response.notModified().build();
+	public Response addUser(User Campaign) {
+		//Response response = null;
+		if (campaign.get(Campaign.getPartner_id()) == null) {
+			System.out.println("invoking addUser...." + Campaign.getPartner_id() + " " + Campaign.getDuration() + "    "
+					+ Campaign.getAd_content());
+			ArrayList<User> camplist = new ArrayList<User>();
+			camplist.add(Campaign);
+			//camplist.add(Campaign);
+			campaign.put(Campaign.getPartner_id(), camplist);
+			//response = Response.ok(Campaign).build();
+		} else {
+			System.out.println("****invoking addCampaign already existing******* " + Campaign.getPartner_id());
+			campaign.get(Campaign.getPartner_id()).add(Campaign);
+			//response = Response.notModified().build();
 		}
-		return response;
+		return Response.ok(Campaign).build();
 	}
-	
+
+	@Override
+	public Map<String, List<User>> getAllUsers() {
+	System.out.println("invoking all the Campaign............");
+	for(Entry<String, List<User>> entry : campaign.entrySet())
+    {   
+         System.out.println(entry.getKey() + " : " +entry.getValue());
+    }
+
+		return campaign;
+	}
 
 }
